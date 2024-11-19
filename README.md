@@ -2,8 +2,8 @@
 
 ## Team Members
 1. **Alexander**
-2. **Tyreke**
-3. **Reagan**
+2. **Reagan**
+3. **Tyreke**
 
 ---
 
@@ -11,28 +11,29 @@
 
 ### Alexander
 - **Initial Commit**:
-  - Implemented the basic structure of the project, including:
-    - `login_prompt()` to establish the database connection.
-    - `list_options()` to handle menu options.
-    - A placeholder framework for CRUD operations (`display_all()`, etc.).
-  - Ensured successful connection handling with basic menu navigation.
-
-### Tyreke
-- **Second Commit**:
-  - Refactored the project to improve structure and functionality.
-  - Implemented robust input validation in `list_options()` and numeric validation in `get_float_input()`.
-  - Added `insert_display()` to handle adding new digital displays and their associated models.
-  - Integrated parameterized SQL queries for security and reliability.
-  - Committed changes for new model insertions in `insert_display()`.
+  - Created the base structure of the project:
+    - Implemented `login_prompt()` to establish the database connection.
+    - Designed the initial version of `list_options()` for menu navigation.
+    - Implemented the `display_all()` function to fetch and display all digital displays.
+  - Included a placeholder framework for future operations and basic menu handling.
 
 ### Reagan
+- **Second Commit**:
+  - Enhanced the project by adding the following:
+    - `scheduler_search()` function to search digital displays by scheduler system.
+    - Improved the `list_options()` function with better input handling and validation.
+    - Expanded `insert_display()` to validate serial numbers and model numbers before insertion.
+  - Added a more robust `logout()` function to handle graceful disconnection and program exit.
+  - Debugged and polished the code for a better user experience.
+
+### Tyreke
 - **Final Commit**:
-  - Expanded the project functionality:
-    - Added `scheduler_search()` to enable searching digital displays by scheduler system.
-    - Improved `list_options()` to loop through menu navigation and handle invalid inputs gracefully.
-    - Enhanced `insert_display()` with validation for serial numbers and model numbers.
-  - Polished user interaction and added detailed success/error messages.
-  - Implemented graceful logout with `logout()`.
+  - Refactored and integrated all functionalities:
+    - Improved the project structure for readability and maintainability.
+    - Enhanced `insert_display()` with detailed input validation for model attributes.
+    - Finalized `delete_display()` to handle the removal of displays and associated models.
+    - Ensured all SQL queries were parameterized to enhance security.
+  - Tested the final project and resolved any remaining bugs.
 
 ---
 
@@ -43,5 +44,4 @@ Tyreke is the designated team representative responsible for submitting the proj
 ---
 
 ## Notes
-- The project was divided into three key stages, reflecting contributions from Alexander, Tyreke, and Reagan.
-- The final version integrates login, menu navigation, and CRUD operations with robust input validation and error handling.
+- The project was built incrementally over three commits, with each team member contributing to key functionalities.
