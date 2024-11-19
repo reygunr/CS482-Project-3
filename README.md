@@ -38,8 +38,8 @@
 ---
 
 ## Team Representative
-**<Name>**  
-<Name> is the designated team representative responsible for submitting the project.
+**(Name)**  
+(Name) is the designated team representative responsible for submitting the project.
 
 ---
 
