@@ -204,10 +204,10 @@ def update_display():
 
     dbCursor = db_connection.cursor()
 
-    serialNo = input("Enter the single-digit serial number of the display to update (1-9): ")
+    serialNo = input("Enter the single-digit serial number of the display to update: ")
 
     if not serialNo.isdigit():
-        print("Invalid serial number. Please enter a single digit between 1 and 9.\n")
+        print("Invalid serial number.\n")
         return
 
     query = """
@@ -222,8 +222,6 @@ def update_display():
     if not result:
         print("Serial number not found.\n")
         return
-
-    print(result)
 
     print("Available columns to update: schedulerSystem, width, height, weight, depth, screenSize")
     column_to_update = input("Enter the column name to update: ").strip().lower()
