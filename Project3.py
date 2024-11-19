@@ -3,6 +3,7 @@ import os
 import sys
 import mysql.connector
 from mysql.connector import Error
+import getpass
 
 db_connection = None
 
@@ -12,7 +13,7 @@ def login_prompt():
         db_host = input("Enter the database host: ")
         db_name = input("Enter the database name: ")
         db_user = input("Enter the username: ")
-        db_password = input("Enter the password: ")
+        db_password = getpass.getpass("Enter the password: ")
 
         try:
             connection = mysql.connector.connect(
@@ -40,7 +41,8 @@ def list_options():
         print("2. Search digital displays given a scheduler system")
         print("3. Insert a new digital display")
         print("4. Delete a digital display")
-        print("5. logout")
+        print("5. Update a digial display")
+        print("6. logout")
         print("---------------------------------------------------------")
 
         user_input = input("Enter choice #: ")
@@ -48,7 +50,7 @@ def list_options():
         if user_input.isdigit():
             user_input = int(user_input)
 
-            if not (1 <= user_input <= 5):
+            if not (1 <= user_input <= 6):
                 print("Invalid choice. Try again")
                 continue
 
@@ -69,12 +71,15 @@ def option_selection(selected_option):
         print("4. Delete a digital display")
         delete_display()
     elif selected_option == 5:
+        print("5. Update a digital display")
+        update_display()
+    elif selected_option == 6:
         logout()
     else:
         print("Invalid input. Please try again.\n")
 
 def display_all():
-    print("Displaying all digital displays and their models:")
+    print("\nDisplaying all digital displays and their models:\n")
     dbCursor = db_connection.cursor()
 
     query = """
@@ -161,6 +166,9 @@ def insert_display():
     print("Digital display inserted successfully.\n")
 
 def delete_display():
+
+    display_all()
+
     dbCursor = db_connection.cursor()
 
     serialNo = input("Enter the serial number of the display to delete: ")
@@ -186,7 +194,64 @@ def delete_display():
 
     db_connection.commit()
     print("Digital display deleted successfully.\n")
-        
+
+    print("Remaining models after deletion")
+    display_all()
+
+
+def update_display():
+    display_all()
+
+    dbCursor = db_connection.cursor()
+
+    serialNo = input("Enter the single-digit serial number of the display to update (1-9): ")
+
+    if not serialNo.isdigit():
+        print("Invalid serial number. Please enter a single digit between 1 and 9.\n")
+        return
+
+    query = """
+        SELECT DigitalDisplay.serialNo, schedulerSystem, DigitalDisplay.modelNo, 
+               width, height, weight, depth, screenSize
+        FROM DigitalDisplay
+        INNER JOIN Model ON DigitalDisplay.modelNo = Model.modelNo
+        WHERE serialNo = %s;
+    """
+    dbCursor.execute(query, (serialNo,))
+    result = dbCursor.fetchone()
+    if not result:
+        print("Serial number not found.\n")
+        return
+
+    print(result)
+
+    print("Available columns to update: schedulerSystem, width, height, weight, depth, screenSize")
+    column_to_update = input("Enter the column name to update: ").strip().lower()
+
+    valid_columns = ["schedulersystem", "width", "height", "weight", "depth", "screensize"]
+    if column_to_update not in valid_columns:
+        print(f"Invalid column name. Choose from: {', '.join(valid_columns)}.\n")
+        return
+
+    new_value = input(f"Enter the new value for {column_to_update}: ").strip()
+
+    try:
+        if column_to_update == "schedulersystem":
+            update_query = "UPDATE DigitalDisplay SET schedulerSystem = %s WHERE serialNo = %s;"
+            dbCursor.execute(update_query, (new_value, serialNo))
+        else:
+            update_query = f"UPDATE Model SET {column_to_update} = %s WHERE modelNo = (SELECT modelNo FROM DigitalDisplay WHERE serialNo = %s);"
+            dbCursor.execute(update_query, (new_value, serialNo))
+
+        db_connection.commit()
+        print("Digital display updated successfully.\n")
+    except Exception as e:
+        print(f"Error updating display: {e}")
+        db_connection.rollback()
+
+    print("Updated digital displays:")
+    display_all()
+
 def get_float_input(prompt):
     while True:
         try:
