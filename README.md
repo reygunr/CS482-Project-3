@@ -39,9 +39,9 @@
 
 ## Team Representative
 **(Name)**  
-(Name) is the designated team representative responsible for submitting the project.
+Reagan is the designated team representative responsible for submitting the project.
 
 ---
 
 ## Notes
-- The project was built incrementally over three commits, with each team member contributing to key functionalities.
+- The project was built incrementally over 5 commits, with each team member contributing to key functionalities.
